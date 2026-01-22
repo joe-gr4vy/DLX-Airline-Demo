@@ -1,4 +1,5 @@
 // src/app/api/token/route.js
+import { Client } from '@gr4vy/node';
 import { NextResponse } from 'next/server';
 
 export async function GET(request) {
@@ -9,41 +10,24 @@ export async function GET(request) {
     const privateKey = process.env.GR4VY_PRIVATE_KEY;
     
     if (!privateKey) {
-      console.error('GR4VY_PRIVATE_KEY is not set');
-      return NextResponse.json({ error: 'Missing API key' }, { status: 500 });
+      return NextResponse.json({ error: 'Missing private key' }, { status: 500 });
     }
 
-    // Create the embed token request
-    const response = await fetch('https://api.sandbox.gr4vy.app/embed/buyer/single-use', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${privateKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        amount: parseInt(amount),
-        currency: 'USD',
-      })
+    const client = new Client({
+      gr4vyId: 'partners',
+      privateKey: privateKey,
+      environment: 'sandbox'
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Gr4vy API error:', response.status, errorText);
-      return NextResponse.json({ 
-        error: `API error: ${response.status}` 
-      }, { status: response.status });
-    }
-
-    const data = await response.json();
-    
-    return NextResponse.json({ 
-      token: data.token 
+    // Try the correct method name
+    const token = await client.getEmbedToken({
+      amount: parseInt(amount),
+      currency: 'USD'
     });
 
+    return NextResponse.json({ token });
   } catch (error) {
-    console.error('Token generation error:', error);
-    return NextResponse.json({ 
-      error: error.message 
-    }, { status: 500 });
+    console.error('Token error:', error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
