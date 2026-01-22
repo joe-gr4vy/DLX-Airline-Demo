@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@gr4vy/node": "^1.4.0",
     "next": "16.1.4",
     "react": "19.2.3",
     "react-dom": "19.2.3"

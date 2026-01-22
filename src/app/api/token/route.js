@@ -1,39 +1,49 @@
 // src/app/api/token/route.js
-import { Client } from '@gr4vy/node';
 import { NextResponse } from 'next/server';
 
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
-    const amount = parseInt(searchParams.get('amount')) || 29900;
+    const amount = searchParams.get('amount') || '10000';
 
-    console.log('Generating token for amount:', amount, 'cents');
-
-    const rawKey = process.env.GR4VY_PRIVATE_KEY;
-    if (!rawKey) {
-      return NextResponse.json({ error: 'Missing GR4VY_PRIVATE_KEY' }, { status: 500 });
+    const privateKey = process.env.GR4VY_PRIVATE_KEY;
+    
+    if (!privateKey) {
+      console.error('GR4VY_PRIVATE_KEY is not set');
+      return NextResponse.json({ error: 'Missing API key' }, { status: 500 });
     }
 
-    const privateKey = rawKey.replace(/\\n/g, '\n').trim();
-
-    const client = new Client({
-      gr4vyId: 'partners',
-      privateKey: privateKey,
-      environment: 'sandbox',
-      merchantAccountId: 'datalex'
+    // Create the embed token request
+    const response = await fetch('https://api.sandbox.gr4vy.app/embed/buyer/single-use', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${privateKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: parseInt(amount),
+        currency: 'USD',
+      })
     });
 
-    const token = await client.getEmbedToken({
-      amount: amount,
-      currency: 'USD',
-      country: 'US'
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Gr4vy API error:', response.status, errorText);
+      return NextResponse.json({ 
+        error: `API error: ${response.status}` 
+      }, { status: response.status });
+    }
+
+    const data = await response.json();
+    
+    return NextResponse.json({ 
+      token: data.token 
     });
 
-    console.log('Token generated successfully');
-
-    return NextResponse.json({ token });
-  } catch (err) {
-    console.error('Token generation error:', err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (error) {
+    console.error('Token generation error:', error);
+    return NextResponse.json({ 
+      error: error.message 
+    }, { status: 500 });
   }
 }
