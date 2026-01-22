@@ -7,11 +7,14 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const amount = searchParams.get('amount') || '10000';
 
-    const privateKey = process.env.GR4VY_PRIVATE_KEY;
+    let privateKey = process.env.GR4VY_PRIVATE_KEY;
     
     if (!privateKey) {
       return NextResponse.json({ error: 'Missing private key' }, { status: 500 });
     }
+
+    // Replace literal \n with actual newlines
+    privateKey = privateKey.replace(/\\n/g, '\n');
 
     const client = new Client({
       gr4vyId: 'partners',
@@ -19,7 +22,6 @@ export async function GET(request) {
       environment: 'sandbox'
     });
 
-    // Try the correct method name
     const token = await client.getEmbedToken({
       amount: parseInt(amount),
       currency: 'USD'
