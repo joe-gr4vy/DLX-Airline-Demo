@@ -77,6 +77,11 @@ export default function CheckoutContent({
     }).catch(err => setError(err.message));
   }, [token]);
 
+  const handlePayment = (e) => {
+    e.preventDefault();
+    // Just prevent default, let Gr4vy handle via form prop
+  };
+
   const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString('en-US', { 
       month: 'short', 
@@ -139,7 +144,7 @@ export default function CheckoutContent({
         </div>
 
         <div style={{ padding: '20px' }}>
-          {/* Order Summary - Show first on mobile */}
+          {/* Order Summary */}
           <div style={{ marginBottom: '24px' }}>
             <div style={{
               background: '#f8f9fa',
@@ -254,7 +259,7 @@ export default function CheckoutContent({
                 Loading payment options...
               </div>
             ) : (
-              <form id="dlx-payment-form" style={{ minHeight: '400px' }}>
+              <form id="dlx-payment-form" onSubmit={handlePayment} style={{ minHeight: '400px' }}>
                 <Embed
                   ref={embedRef}
                   gr4vyId="partners"
@@ -263,7 +268,7 @@ export default function CheckoutContent({
                   amount={totalCents}
                   currency={currency.code}
                   country={countryCode}
-                  form="dlx-payment-form"
+                  form="#dlx-payment-form"
                   onEvent={(name, data) => {
                     console.log(`EVENT [${name}]:`, data);
                   }}
@@ -283,6 +288,26 @@ export default function CheckoutContent({
                     console.error('Payment error:', error);
                   }}
                 />
+
+                <button
+                  type="submit"
+                  style={{
+                    width: '100%',
+                    padding: '16px',
+                    marginTop: '20px',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)'
+                  }}
+                >
+                  Complete Booking
+                </button>
               </form>
             )}
           </div>

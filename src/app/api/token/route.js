@@ -24,7 +24,8 @@ export async function GET(request) {
 
     const token = await client.getEmbedToken({
       amount: parseInt(amount),
-      currency: 'USD'
+      currency: 'USD',
+      // REMOVED buyer_external_identifier - causing validation error
     });
 
     return NextResponse.json({ token });
