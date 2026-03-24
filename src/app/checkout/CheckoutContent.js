@@ -53,7 +53,7 @@ export default function CheckoutContent({
   useEffect(() => {
     console.log('Fetching token for amount:', totalCents, 'cents, currency:', currency.code, 'country:', countryCode);
     
-    fetch(`/api/token?amount=${totalCents}`)
+    fetch(`/api/token?amount=${totalCents}&currency=${currency.code}`)
       .then(res => res.json())
       .then(data => {
         if (data.error) {

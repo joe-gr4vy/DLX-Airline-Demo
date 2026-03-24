@@ -6,6 +6,7 @@ export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const amount = searchParams.get('amount') || '10000';
+    const currency = searchParams.get('currency') || 'USD';
 
     let privateKey = process.env.GR4VY_PRIVATE_KEY;
     
@@ -25,7 +26,7 @@ export async function GET(request) {
 
     const token = await client.getEmbedToken({
       amount: parseInt(amount),
-      currency: 'USD',
+      currency: currency,
       // REMOVED buyer_external_identifier - causing validation error
     });
 
