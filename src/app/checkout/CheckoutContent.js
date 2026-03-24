@@ -29,7 +29,8 @@ export default function CheckoutContent({
     GB: { symbol: '£', code: 'GBP' },
     US: { symbol: '$', code: 'USD' },
     BR: { symbol: 'R$', code: 'BRL' },
-    AE: { symbol: 'د.إ', code: 'AED' }
+    AE: { symbol: 'د.إ', code: 'AED' },
+    RO: { symbol: 'lei', code: 'RON' }
   };
 
   // Country code mapping for Gr4vy
@@ -38,7 +39,8 @@ export default function CheckoutContent({
     GB: 'GB',
     US: 'US',
     BR: 'BR',
-    AE: 'AE'
+    AE: 'AE',
+    RO: 'RO'
   };
 
   const currency = currencies[market];
@@ -262,7 +264,7 @@ export default function CheckoutContent({
               <form id="dlx-payment-form" onSubmit={handlePayment} style={{ minHeight: '400px' }}>
                 <Embed
                   ref={embedRef}
-                  gr4vyId="partners"
+                  gr4vyId="datalex"
                   environment="sandbox"
                   token={token}
                   amount={totalCents}

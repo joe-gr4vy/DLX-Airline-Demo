@@ -22,7 +22,8 @@ function FlightsContent() {
     GB: { symbol: '£', code: 'GBP' },
     US: { symbol: '$', code: 'USD' },
     BR: { symbol: 'R$', code: 'BRL' },
-    AE: { symbol: 'د.إ', code: 'AED' }
+    AE: { symbol: 'د.إ', code: 'AED' },
+    RO: { symbol: 'lei', code: 'RON' }
   };
 
   const currency = currencies[market];
@@ -33,7 +34,8 @@ function FlightsContent() {
     GB: 0.79,
     US: 1.0,
     BR: 5.0,
-    AE: 3.67
+    AE: 3.67,
+    RO: 4.7
   };
 
   const multiplier = fareMultipliers[market];

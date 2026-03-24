@@ -17,9 +17,10 @@ export async function GET(request) {
     privateKey = privateKey.replace(/\\n/g, '\n');
 
     const client = new Client({
-      gr4vyId: 'partners',
+      gr4vyId: 'datalex',
       privateKey: privateKey,
-      environment: 'sandbox'
+      environment: 'sandbox',
+      merchantAccountId: 'default'
     });
 
     const token = await client.getEmbedToken({

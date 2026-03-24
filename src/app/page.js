@@ -102,6 +102,7 @@ export default function Home() {
             <option value="GB">United Kingdom (GBP)</option>
             <option value="BR">Brazil (BRL)</option>
             <option value="AE">United Arab Emirates (AED)</option>
+            <option value="RO">Romania (RON)</option>
           </select>
         </div>
 

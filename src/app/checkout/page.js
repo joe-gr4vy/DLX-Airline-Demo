@@ -35,7 +35,8 @@ function CheckoutWrapper() {
     { code: 'GB', name: 'United Kingdom', flag: '🇬🇧' },
     { code: 'US', name: 'United States', flag: '🇺🇸' },
     { code: 'BR', name: 'Brazil', flag: '🇧🇷' },
-    { code: 'AE', name: 'UAE', flag: '🇦🇪' }
+    { code: 'AE', name: 'UAE', flag: '🇦🇪' },
+    { code: 'RO', name: 'Romania', flag: '🇷🇴' }
   ];
 
   return (
