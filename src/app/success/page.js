@@ -17,7 +17,8 @@ function SuccessContent() {
     GB: { symbol: '£', code: 'GBP' },
     US: { symbol: '$', code: 'USD' },
     BR: { symbol: 'R$', code: 'BRL' },
-    AE: { symbol: 'د.إ', code: 'AED' }
+    AE: { symbol: 'د.إ', code: 'AED' },
+    RO: { symbol: 'lei', code: 'RON' }
   };
 
   const currency = currencies[market];
